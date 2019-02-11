@@ -12,8 +12,12 @@ import '@stencil/core';
 
 export namespace Components {
 
-  interface UeSideDrawer {}
-  interface UeSideDrawerAttributes extends StencilHTMLAttributes {}
+  interface UeSideDrawer {
+    'title': string;
+  }
+  interface UeSideDrawerAttributes extends StencilHTMLAttributes {
+    'title'?: string;
+  }
 }
 
 declare global {

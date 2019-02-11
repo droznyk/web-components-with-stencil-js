@@ -1,15 +1,24 @@
-import { Component } from "@stencil/core";
+import { Component, Prop } from "@stencil/core";
 
 @Component({
-  tag: 'ue-side-drawer'
+  tag: 'ue-side-drawer',
+  styleUrl: './side-drawer.css',
+  shadow: true
 })
 
 export class SideDrawer {
+  @Prop() title: string;
+
   render() {
     return (
-      <div>
-        <h1>The Side Drawer</h1>
-      </div>
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+        </header>
+        <main>
+          <slot />
+        </main>
+      </aside>
     );
   }
 }
