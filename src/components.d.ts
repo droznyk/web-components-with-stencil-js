@@ -13,9 +13,11 @@ import '@stencil/core';
 export namespace Components {
 
   interface UeSideDrawer {
+    'open': boolean;
     'title': string;
   }
   interface UeSideDrawerAttributes extends StencilHTMLAttributes {
+    'open'?: boolean;
     'title'?: string;
   }
 }
