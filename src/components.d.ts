@@ -23,8 +23,12 @@ export namespace Components {
     'title'?: string;
   }
 
-  interface UeStockPrice {}
-  interface UeStockPriceAttributes extends StencilHTMLAttributes {}
+  interface UeStockPrice {
+    'stockSymbol': string;
+  }
+  interface UeStockPriceAttributes extends StencilHTMLAttributes {
+    'stockSymbol'?: string;
+  }
 }
 
 declare global {

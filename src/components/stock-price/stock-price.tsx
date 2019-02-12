@@ -1,4 +1,4 @@
-import { Component, State } from "@stencil/core";
+import { Component, State, Prop, Watch } from "@stencil/core";
 
 import { AV_API_KEY } from '../../global/global';
 
@@ -10,6 +10,7 @@ import { AV_API_KEY } from '../../global/global';
 
 export class StockPrice {
   stockInput: HTMLInputElement;
+  // initialStockSymbol: string;
 
   // @Element() el: HTMLElement;
 
@@ -17,6 +18,16 @@ export class StockPrice {
   @State() stockUserInput: string;
   @State() stockInputValid = false;
   @State() error: string;
+
+  @Prop({ reflectToAttr: true, mutable: true }) stockSymbol: string;
+
+  @Watch('stockSymbol')
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.fetchStockPrice(newValue);
+    }
+  }
 
   onUserInput = (event: Event) => {
     this.stockUserInput = (event.target as HTMLInputElement).value;
@@ -27,24 +38,11 @@ export class StockPrice {
     }
   }
 
-  onFetchStockPrice = async (event: Event) => {
+  onFetchStockPrice = (event: Event) => {
     event.preventDefault();
     // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
-    try {
-      const stockSymbol = this.stockInput.value;
-      const response = await fetch(
-        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
-      )
-
-      const parsed_response = await response.json()
-      if (!parsed_response['Global Quote']['05. price']) {
-        throw new Error('Invalid symbol!');
-      }
-      this.error = null;
-      this.fetchedPrice = + parsed_response['Global Quote']['05. price'];
-    } catch (error) {
-      this.error = error.message
-    }
+    this.stockSymbol = this.stockInput.value;
+    // this.fetchStockPrice(stockSymbol);
     // fetch(
     //   `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
     // )
@@ -60,6 +58,54 @@ export class StockPrice {
     //   .catch(err => {
     //     console.log(err);
     //   });
+  }
+
+  componentWillLoad() {
+    console.log('componentWillLoad');
+    console.log(this.stockSymbol);
+  }
+
+  componentDidLoad = () => {
+    console.log('componentDidLoad');
+    if (this.stockSymbol) {
+      // this.initialStockSymbol = this.stockSymbol;
+      this.stockInputValid = true;
+      this.stockUserInput = this.stockSymbol;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {
+    console.log('componentWillUpdate');
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate');
+    // if (this.stockSymbol !== this.initialStockSymbol) {
+    //   this.initialStockSymbol = this.stockSymbol;
+    //   this.fetchStockPrice(this.stockSymbol);
+    // }
+  }
+
+  componentDidUnload() {
+    console.log('componentDidUnload');
+  }
+
+  fetchStockPrice = async (stockSymbol: string) => {
+    try {
+      const response = await fetch(
+        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
+      )
+
+      const parsed_response = await response.json()
+      if (!parsed_response['Global Quote']['05. price']) {
+        throw new Error('Invalid symbol!');
+      }
+      this.error = null;
+      this.fetchedPrice = + parsed_response['Global Quote']['05. price'];
+    } catch (error) {
+      this.error = error.message
+    }
   }
 
   render() {
