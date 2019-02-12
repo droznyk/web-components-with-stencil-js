@@ -23,6 +23,9 @@ export namespace Components {
     'title'?: string;
   }
 
+  interface UeStockFinder {}
+  interface UeStockFinderAttributes extends StencilHTMLAttributes {}
+
   interface UeStockPrice {
     'stockSymbol': string;
   }
@@ -34,11 +37,13 @@ export namespace Components {
 declare global {
   interface StencilElementInterfaces {
     'UeSideDrawer': Components.UeSideDrawer;
+    'UeStockFinder': Components.UeStockFinder;
     'UeStockPrice': Components.UeStockPrice;
   }
 
   interface StencilIntrinsicElements {
     'ue-side-drawer': Components.UeSideDrawerAttributes;
+    'ue-stock-finder': Components.UeStockFinderAttributes;
     'ue-stock-price': Components.UeStockPriceAttributes;
   }
 
@@ -49,6 +54,12 @@ declare global {
     new (): HTMLUeSideDrawerElement;
   };
 
+  interface HTMLUeStockFinderElement extends Components.UeStockFinder, HTMLStencilElement {}
+  var HTMLUeStockFinderElement: {
+    prototype: HTMLUeStockFinderElement;
+    new (): HTMLUeStockFinderElement;
+  };
+
   interface HTMLUeStockPriceElement extends Components.UeStockPrice, HTMLStencilElement {}
   var HTMLUeStockPriceElement: {
     prototype: HTMLUeStockPriceElement;
@@ -57,11 +68,13 @@ declare global {
 
   interface HTMLElementTagNameMap {
     'ue-side-drawer': HTMLUeSideDrawerElement
+    'ue-stock-finder': HTMLUeStockFinderElement
     'ue-stock-price': HTMLUeStockPriceElement
   }
 
   interface ElementTagNameMap {
     'ue-side-drawer': HTMLUeSideDrawerElement;
+    'ue-stock-finder': HTMLUeStockFinderElement;
     'ue-stock-price': HTMLUeStockPriceElement;
   }
 
