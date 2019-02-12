@@ -47,8 +47,8 @@
     const sideDrawerButton = document.querySelector('#side-drawer-btn');
     const sideDrawer = document.querySelector('ue-side-drawer');
     sideDrawerButton.addEventListener('click', () => {
-      if (!sideDrawer.open) {
-        sideDrawer.open = true;
+      if (!sideDrawer.opened) {
+        sideDrawer.open();
       }
     });
     setTimeout(() => {
