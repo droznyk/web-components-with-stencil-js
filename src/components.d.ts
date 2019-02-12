@@ -13,6 +13,7 @@ import '@stencil/core';
 export namespace Components {
 
   interface UeSideDrawer {
+    'changeTitle': (title: string) => void;
     'open': () => void;
     'opened': boolean;
     'title': string;

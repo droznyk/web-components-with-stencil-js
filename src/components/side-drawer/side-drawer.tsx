@@ -8,7 +8,7 @@ import { Component, Prop, State, Method } from "@stencil/core";
 
 export class SideDrawer {
   @State() showContactInfo = false;
-  @Prop({reflectToAttr: true }) title: string;
+  @Prop({reflectToAttr: true, mutable: true }) title: string;
   @Prop({reflectToAttr: true, mutable: true }) opened: boolean;
 
   onCloseDrawer() {
@@ -22,6 +22,11 @@ export class SideDrawer {
   @Method()
   open() {
     this.opened = true;
+  }
+
+  @Method()
+  changeTitle(title: string) {
+    this.title = title;
   }
 
   render() {
@@ -64,6 +69,7 @@ export class SideDrawer {
         </section>
         <main>
           {mainContent}
+          <button onClick={this.changeTitle.bind(this, 'Hello moto.')}>Change!</button>
         </main>
       </aside>
     ];
